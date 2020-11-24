@@ -1,6 +1,11 @@
 function generate_data(distribution, no_samples, no_criterion, parameters)
-    datetime.setDefaultFormats('default', 'yyy-mm-dd hh:MM:ss');
+    datetime.setDefaultFormats('default', 'yyy-MM-dd hh:mm:ss');
     timestamp = string(datetime('now'));
+    col_names = [];
+    for i=1:no_criterion
+        str = strcat("Kryterium", num2str(i));
+        col_names = [col_names, str];
+    end
     old = {':', ' '};
     new = {'-'};
     timestamp = replace(timestamp, old, new);
@@ -20,10 +25,12 @@ function generate_data(distribution, no_samples, no_criterion, parameters)
             filename = 'jednostajny' + timestamp;
         otherwise
     end
+    T = array2table(data);
+    T.Properties.VariableNames = col_names;
     if ~(isfile(filename))
-        xlswrite(filename, data);
+        writetable(T, filename);
     else
         delete(filename);
-        xlswrite(filename, data);
+        writetable(T, filename);
     end
 end
