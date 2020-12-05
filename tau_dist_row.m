@@ -1,9 +1,11 @@
-function [inversions] = tau_dist_row(row1, row2)
+function [inversions] = tau_dist_row(row1, row2, weights_vector)
 %tau_dist_row calculates Tau Sequence Distance for every two rows of ranks
 %   Detailed explanation goes here
     s1 = length(row1);
     s2 = length(row2);
+    s3 = length(weights_vector);
     assert(s1 == s2, 'Error, unequal length sequences');
+    assert(s1 == s3, 'Error, unequal length sequences');
     n = s1;
     S = sort(row1);
     M = ones(1, n);
@@ -47,6 +49,6 @@ function [inversions] = tau_dist_row(row1, row2)
             P(h1) = h2;
         end
     end
-    inversions = perm_invs_count(P);
+    inversions = perm_invs_count(P, weights_vector);
 end
 
