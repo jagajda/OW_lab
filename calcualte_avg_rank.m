@@ -18,6 +18,9 @@ function avgRank = calcualte_avg_rank(ranks)
        end
        newMap(i,1) = round(newMap(i,1) / number_of_ranks);
    end
-   avgRank = newMap;
+   avgRank = zeros(size(rank1));
+   for j=1:items
+       avgRank(j,:) = rank1(newMap(j,1), :);
+   end
 end
 
