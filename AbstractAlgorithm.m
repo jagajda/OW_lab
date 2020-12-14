@@ -6,7 +6,7 @@ classdef AbstractAlgorithm
     end
     
     methods (Abstract)
-       calculate(obj, input);
+       calculate(obj, input, reference_points);
        obj = init(obj, params);
     end
     

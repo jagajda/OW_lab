@@ -1,0 +1,80 @@
+classdef ReferencesPoints
+    properties
+        Points = containers.Map('KeyType','char','ValueType','any');
+    end
+    
+    methods
+        function points = getType(obj, type)
+            points = [];
+            if(obj.hasKey(type))
+                points = obj.Points(type);
+            end
+        end
+        
+        function points = addPoint(obj, point)
+            if(isKey(obj.Points, point.Type))
+                points = [obj.Points(type), point];
+            else
+                points = [point];
+            end
+            obj.Points(point.Type) = points;
+        end
+        
+        function vals = getVals(obj)
+            vals = [];
+            k = values(obj.Points);
+            for i=length(k)
+                vals = vertcat(vals, k{i}.Vals);
+            end
+        end
+        
+        function val = hasKey(obj, key)
+            val = isKey(obj.Points, key);
+        end
+        
+        function vals = getValsForType(obj, type)
+            pointsType = getType(type);
+            vals = [];
+            for i=1:length(pointsType)
+                vals = vertcat(vals, obj.Points(i).Vals);
+            end
+        end
+        
+        function experts = getExpertsForType(obj, type)
+            pointsType = getType(type);
+            experts = [];
+            for i=1:length(pointsType)
+                experts = vertcat(vals, obj.Points(i).Expert);
+            end
+        end
+        
+        function experts = getExperts(obj)
+            experts = []
+            k = values(obj.Points);
+            for i=length(k)
+                experts = vertcat(vals, k{i}.Expert);
+            end
+        end
+        
+        function saveToXlsx(obj, filename)
+            k = keys(obj.Points);
+            for i=1:length(k)
+                vals = obj.getValsForType(k{i});
+                experts = obj.getExpertsForType(k{i});
+                data = horzcat(vals, experts);
+                writematrix(data, filename, 'Sheet', k{i});
+            end 
+        end
+        
+        function fillDataTable(obj, dataTable)
+            if(~isempty(obj.Points))
+                dataTable.Data = obj.getVals();
+                for i=1:length(obj.Points(0).Vals)
+                    criterions = [criterion]
+                end
+                dataTable.Column =
+            end
+        end
+    end
+end
+
